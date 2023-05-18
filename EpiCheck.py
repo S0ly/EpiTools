@@ -7,7 +7,7 @@ from termcolor import colored
 IGNORED_DIRS = ['bonus', 'test']
 
 # Keywords to exclude
-EXCLUDED_KEYWORDS = ['if', 'while', 'for', 'switch', 'else']
+EXCLUDED_KEYWORDS = ['if', 'while', 'for', 'switch', 'else', 'return']
 
 def get_c_files(path='.'):
     """Get all .c files in a directory."""
@@ -37,9 +37,11 @@ def get_function_calls(file_path):
     for i, line in enumerate(lines, start=1):
         calls = re.findall(r'\b(\w+)\s*\([^)]*\);', line)
         for call in calls:
-            function_calls[call].append((file_path, i))
+            if call not in EXCLUDED_KEYWORDS:
+                function_calls[call].append((file_path, i))
 
     return function_calls
+
 
 def analyse_c_files(path='.'):
     """Analyse all .c files in a directory."""
