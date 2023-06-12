@@ -43,10 +43,10 @@ def format_file_list(files):
         is_first_file = i == 0
 
         # Split long file paths into multiple lines
-        while len(file) > 73:  # 73 is chosen to accommodate the length of tab, space, and backslash
-            cut_point = file.rfind('/', 0, 73)
+        while len(file) > 70:  # 70 is chosen to accommodate the length of tab, space, and backslash
+            cut_point = file.rfind('/', 0, 70)
             if cut_point == -1:  # If there's no slash within the first 73 characters
-                cut_point = 73
+                cut_point = 70
 
             # Add only one tab for the first file
             formatted_files.append(("\t" if is_first_file else "\t\t") + file[:cut_point] + " \\")
