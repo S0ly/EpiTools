@@ -10,7 +10,7 @@ import argparse
 
 # Set global variables
 MAKEFILE_PATH = './Makefile'
-BANNED_FOLDERS = ['./tests', './bonus', './.ignore']
+BANNED_FOLDERS = ['./bonus', './.ignore']
 BANNED_FILES = ['main.c']
 
 # Add custom exception for Makefile errors
@@ -97,7 +97,10 @@ def update_makefile(makefile_path, src, tests):
     for line in src_lines[1:]:
         new_contents += '\n' + line
 
-    new_contents += '\n\nTESTS = ' + (tests_lines[0] if tests_lines else "")
+    new_contents += '\n\nTESTS ='
+    if len(tests_lines) >= 1:
+        new_contents += ' ' + (tests_lines[0] if tests_lines else "")
+
 
     for line in tests_lines[1:]:
         new_contents += '\n' + line
@@ -113,8 +116,8 @@ def main():
     c_files = collect_c_files('.', BANNED_FOLDERS, BANNED_FILES)
 
     # Format the list of source and test files
-    src_files = format_file_list([file for file in c_files if not file.startswith('./tests/') and file != './main.c'])
-    test_files = format_file_list([file for file in c_files if file.startswith('./tests/')])
+    src_files = format_file_list([file for file in c_files if not file.startswith('tests/') and file != './main.c'])
+    test_files = format_file_list([file for file in c_files if file.startswith('tests/')])
 
     # Update the Makefile
     update_makefile(MAKEFILE_PATH, src_files, test_files)
